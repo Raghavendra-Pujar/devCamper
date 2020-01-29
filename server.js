@@ -14,6 +14,10 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 5000
 
+//Body Parser
+
+app.use(express.json())
+
 //Dev logging middleware
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'))
