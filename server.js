@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
+const errorHandler = require('./middleware/error')
 //Routre files
 const bootcamps = require('./routes/bootcamps')
 const connectDB = require('./config/db');
@@ -25,7 +26,9 @@ if(process.env.NODE_ENV === 'development'){
 
 
 //Mount routers
-app.use('/api/v1/bootcamps',bootcamps)
+app.use('/api/v1/bootcamps',bootcamps);
+
+app.use(errorHandler);
 
 const server = app.listen(
     PORT,
@@ -33,7 +36,7 @@ const server = app.listen(
 );
 
 process.on('unhandledRejection',(err,promise)=>{
-    console.log(`Error:${err.message}.red.bold`)
+    console.log(`Error:${err.message}`.red.bold)
 
     server.close(()=>process.exit(1))
 })
